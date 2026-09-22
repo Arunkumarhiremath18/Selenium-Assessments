@@ -1,0 +1,80 @@
+package capgeminiAssignmentsOnSelenium.Day10;
+
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.time.Duration;
+import java.util.Properties;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.AfterSuite;
+import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.BeforeSuite;
+import org.testng.annotations.BeforeTest;
+
+public class sauseBaseClass {
+	WebDriver driver=null;
+	@BeforeSuite
+	public void Bs() {
+		System.out.println("establish database connectivity");
+	}
+	@BeforeTest
+	public void Bt() throws IOException {
+		FileInputStream fis = new FileInputStream("./src/test/java/capgeminiAssignmentsOnSelenium/Day10/sausedemo.properties");
+		Properties p = new Properties();
+		p.load(fis);
+		
+		//properties file
+		String BROWSER = p.getProperty("browser");
+		if(BROWSER.equals("chrome")) {
+			driver= new ChromeDriver();
+		}
+		driver.manage().window().maximize();
+		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+		System.out.println("Pre conditions");
+	}
+	@BeforeMethod
+	public void Bm() throws IOException {
+		System.out.println("Im in before method");
+		FileInputStream fis = new FileInputStream("./src/test/java/capgeminiAssignmentsOnSelenium/Day10/sausedemo.properties");
+		Properties p = new Properties();
+		p.load(fis);
+		String URL = p.getProperty("url");
+		String USERNAME = p.getProperty("username");
+		String PASSWORD = p.getProperty("password");
+		driver.get(URL);
+		
+		SuseLoginPom s= new SuseLoginPom(driver);
+		s.getUsername(USERNAME);
+		s.getPassword(PASSWORD);
+		s.getLoginbtn();
+		//driver.switchTo().alert().accept();
+		
+	}
+	@AfterMethod
+	public void Am() {
+		SauseLogoutPom s =new  SauseLogoutPom(driver);
+		s.getHam();
+		s.getLogout();
+		System.out.println("Logout done");
+	}
+	@AfterClass
+	public void Ac() {
+		driver.quit();
+		System.out.println("browser is closed");
+	}
+	@AfterTest
+	public void At() {
+		System.out.println("post conditions");
+	}
+	@AfterSuite
+	public void As() {
+		System.out.println("database connectivity close");
+	}
+	
+
+}
