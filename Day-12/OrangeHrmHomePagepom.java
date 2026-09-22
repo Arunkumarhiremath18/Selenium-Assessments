@@ -1,0 +1,42 @@
+package capgeminiAssignmentsOnSelenium.Day12;
+
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
+
+public class OrangeHrmHomePagepom {
+	WebDriver driver;
+	public OrangeHrmHomePagepom(WebDriver driver) {
+		this.driver=driver;
+		PageFactory.initElements(driver, this);
+	}
+		//recuterlink
+		@FindBy(xpath = "//span[text()='Recruitment']")
+		private WebElement recruitmrnt;
+		public void getRecruitmrnt() {
+			recruitmrnt.click();
+		}
+		
+		//my info
+		@FindBy(xpath = "//span[normalize-space()='My Info']")
+		private WebElement myinfo;
+		public void getMyinfo() {
+			myinfo.click();
+		}
+		//clickon profile
+		@FindBy(xpath = "(//img[@alt=\"profile picture\"])[1]")
+		private WebElement profie;
+		public void getProfie() {
+			profie.click();
+		}
+		//logout
+		@FindBy(xpath = "//a[normalize-space()='Logout']")
+		private WebElement logout;
+		public void getLogout() {
+			logout.click();
+		}
+		
+		
+
+}
